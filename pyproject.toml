@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools >= 67.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name =  "minimal-python-template"
+version = "0.0.1"
+description = ""
+# TODO (usr) uncomment the following and add authors
+# authors = [
+#     {name = "YOURNAME", email = "YOUREMAIL@gmail.com"},
+# ]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    # TODO (usr) add your project dependencies here
+]
+
+[project.scripts]
+minimal_python_template = "minimal_python_template.__main__:main"
