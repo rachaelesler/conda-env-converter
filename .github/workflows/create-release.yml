@@ -1,0 +1,80 @@
+name: Create new release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0  # Fetch all history for all tags and branches
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Calculate tag
+        id: calculate_tag
+        run: |
+          # Get current date in YYYY.MM format
+          YEAR_MONTH=$(date -u +"%Y.%m")
+          TAG_NUMBER=0
+          CANDIDATE_TAG="${YEAR_MONTH}.${TAG_NUMBER}"
+
+          # Fetch all tags
+          git fetch --tags
+
+          # Find existing tags with today's date
+          EXISTING_TAGS=$(git tag -l "${YEAR_MONTH}.*" | sort -V)
+
+          if [ -z "$EXISTING_TAGS" ]; then
+              # No tags for candidate tag, so use it
+              NEW_TAG="${CANDIDATE_TAG}"
+          else
+              LAST_TAG=$(echo "$EXISTING_TAGS" | tail -n 1)
+
+              # Extract sequence number
+              if [[ $LAST_TAG =~ ${YEAR_MONTH}\.([0-9]+)$ ]]; then
+                  SEQUENCE=${BASH_REMATCH[1]}
+                  # Increment existing sequence number for use in new tag
+                  NEXT_SEQUENCE=$((SEQUENCE + 1))
+                  NEW_TAG="${YEAR_MONTH}.${NEXT_SEQUENCE}"
+              else
+                  # This shouldn't happen with proper tag formats, but handle
+                  # it anyway
+                  NEW_TAG="${YEAR_MONTH}.1"
+              fi
+          fi
+
+          echo "New tag: $NEW_TAG"
+          echo "VERSION=$NEW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Update and commit VERSION file
+        env:
+          # Using GITHUB_TOKEN here means a new workflow is not created when
+          # VERSION file is pushed
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "${{ steps.calculate_tag.outputs.VERSION }}" > VERSION
+          git add VERSION
+          # Only commit if there are changes
+          git diff --staged --quiet || git commit -m "Update VERSION to ${{ steps.calculate_tag.outputs.VERSION }}"
+          git push origin HEAD:main
+
+      - name: Create new release (creates tag)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create ${{ steps.calculate_tag.outputs.VERSION }} \
+            --title="${{ steps.calculate_tag.outputs.VERSION }}" \
+            --generate-notes --fail-on-no-commits --latest
