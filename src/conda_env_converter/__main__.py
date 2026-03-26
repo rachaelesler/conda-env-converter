@@ -7,7 +7,7 @@ from pathlib import Path
 
 import yaml
 
-from conda_env_converter.version import get_tool_version
+from conda_env_converter import __version__
 
 
 class NotAnEnvironmentFileError(Exception):
@@ -162,7 +162,7 @@ examples:
         required="--version" not in sys.argv,
     )
     parser.add_argument(
-        "--version", help="Print version and exit.", action="store_true", default=False
+        "--version", action="version", version=f"%(prog)s {__version__}"
     )
     parser.add_argument(
         "--name",
@@ -185,10 +185,6 @@ examples:
     )
 
     args = parser.parse_args()
-
-    if args.version:
-        print(get_tool_version())
-        return
 
     if not args.file.exists():
         raise FileNotFoundError(f"File not found: {args.file}")
