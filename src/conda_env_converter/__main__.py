@@ -137,7 +137,7 @@ def build_conda_create_command(
             "`pip install`:\n  " + "\n  ".join(environment_definition.pip_dependencies),
         )
 
-    return " \\\n  ".join(parts)
+    return " ".join(parts)
 
 
 def main() -> None:

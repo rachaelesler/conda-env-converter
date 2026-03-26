@@ -12,8 +12,8 @@ Clone this repository, `cd` into the repo's directory and run the following:
 # Create and activate development Conda environment for this repo
 conda env create --name conda_env_converter --file environment.yml
 conda activate conda_env_converter
-# Install in editable mode
-pip install -e .
+# Install in editable mode with dev packages
+pip install -e .[dev]
 ```
 
 ## Creating a tarball/wheel
