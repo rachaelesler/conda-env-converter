@@ -1,6 +1,6 @@
 # conda-env-converter
 
-A very very basic CLI and Python package for converting a Conda
+A very _very_ basic CLI and Python package for converting a Conda
 `environment.yml` file to a `conda create` command.
 
 ## Usage
