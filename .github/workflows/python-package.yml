@@ -37,7 +37,9 @@ jobs:
     - run: ruff check --fix
     - run: ruff format --check --diff
 
-
+    - name: Install the Python package for testing
+      run: |
+        python -m pip install .
     - name: Python unit tests
       run: |
         pytest --cov=src --cov-report=term-missing
