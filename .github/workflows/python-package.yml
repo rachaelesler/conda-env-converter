@@ -1,6 +1,5 @@
 # This workflow will install Python dependencies, lint the code, and
 # build a package
-# TODO (usr) update or delete this file based on your project needs
 
 name: Python package
 

@@ -1,0 +1,12 @@
+name: conda-env-converter
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.12
+  - pyyaml
+  - ruff
+  - ca-certificates
+  - openssl
+  - pyright
+prefix: /home/resler/miniforge3/envs/conda-env-converter
