@@ -5,9 +5,20 @@ CLI and Python package for converting a Conda `environment.yml` file to a
 
 ## Usage
 
-### Requirements
+### Installation
 
-Refer to `pyproject.toml`
+Install the latest version with:
+
+```bash
+pip install git+ssh://git@github.com/rachaelesler/conda-env-converter.git
+```
+
+Install a specific version with:
+
+```bash
+RELEASE_VERSION="2026.03.4"
+pip install git+ssh://git@github.com/rachaelesler/conda-env-converter.git@${RELEASE_VERSION}
+```
 
 ### Running
 
