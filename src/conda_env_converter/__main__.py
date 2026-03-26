@@ -27,7 +27,7 @@ class CondaEnvironmentDefinition:
     """Encapsulates the data from a Conda environment.yml file."""
 
     name: str
-    channels: list[str]
+    channels: list[str] | None
     prefix: str | None
     conda_dependencies: list[str]
     pip_dependencies: list[str]
@@ -46,7 +46,7 @@ class CondaEnvironmentDefinition:
         )
         return cls(
             name=data["name"],
-            channels=data["channels"],
+            channels=data.get("channels"),
             prefix=data.get("prefix"),
             conda_dependencies=conda_dependencies,
             pip_dependencies=pip_dependencies,
@@ -120,7 +120,7 @@ def build_conda_create_command(
 
     if no_default_packages:
         parts.append("--no-default-packages")
-    if use_channels:
+    if use_channels and environment_definition.channels:
         for channel in environment_definition.channels:
             parts.append(f"--channel {channel}")
 
@@ -181,7 +181,8 @@ examples:
         "--use-channels",
         action="store_true",
         default=False,
-        help="Pass --channels to conda create.",
+        help="Pass --channels to conda create. "
+        "This will fail silently if there are no channels in the environment file.",
     )
 
     args = parser.parse_args()
