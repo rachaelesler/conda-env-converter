@@ -1,1 +1,1 @@
-"""Package initialisation."""
+__version__ = "2026.03.3"

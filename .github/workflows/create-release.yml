@@ -59,16 +59,16 @@ jobs:
           echo "New tag: $NEW_TAG"
           echo "VERSION=$NEW_TAG" >> $GITHUB_OUTPUT
 
-      - name: Update and commit VERSION file
+      - name: Update and commit new version
         env:
           # Using GITHUB_TOKEN here means a new workflow is not created when
           # VERSION file is pushed
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "${{ steps.calculate_tag.outputs.VERSION }}" > VERSION
-          git add -f VERSION
+          sed -i 's/^__version__ = .*/__version__ = "${{ steps.calculate_tag.outputs.VERSION }}"/' src/conda_env_converter/__init__.py
+          git add src/conda_env_converter/__init__.py
           # Only commit if there are changes
-          git diff --staged --quiet || git commit -m "Update VERSION to ${{ steps.calculate_tag.outputs.VERSION }}"
+          git diff --staged --quiet || git commit -m "Update version to ${{ steps.calculate_tag.outputs.VERSION }}"
           git push origin HEAD:main
 
       - name: Create new release (creates tag)
