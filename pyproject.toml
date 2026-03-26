@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name =  "conda-env-converter"
-version = "0.0.1"
+dynamic = ["version"]
 description = "Build a `conda create` command from a Conda environment.yml file."
 authors = [
     {name = "Rachael Esler", email = "rachael.esler@gmail.com"},
