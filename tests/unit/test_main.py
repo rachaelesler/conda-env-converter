@@ -276,3 +276,35 @@ class TestBuildCondaCreateCommand:
         )
         expected = "conda create --name test_env python"
         assert bash_command_strings_are_equal(command, expected)
+
+    def test_no_channels(self, capsys):
+        """Test an environment file with no channels."""
+        env_def = CondaEnvironmentDefinition(
+            name="test_env",
+            channels=None,
+            prefix=None,
+            conda_dependencies=["python=3.9", "numpy"],
+            pip_dependencies=[],
+        )
+        command = build_conda_create_command(
+            env_def, env_name=None, no_default_packages=False, use_channels=False
+        )
+        assert command == 'conda create --name test_env "python=3.9" numpy'
+        captured = capsys.readouterr()
+        assert captured.out == ""
+
+    def test_no_channels_with_use_channels_true(self, capsys):
+        """Test channel-less environment file, when use_channels is True."""
+        env_def = CondaEnvironmentDefinition(
+            name="test_env",
+            channels=None,
+            prefix=None,
+            conda_dependencies=["python=3.9", "numpy"],
+            pip_dependencies=[],
+        )
+        command = build_conda_create_command(
+            env_def, env_name=None, no_default_packages=False, use_channels=True
+        )
+        assert command == 'conda create --name test_env "python=3.9" numpy'
+        captured = capsys.readouterr()
+        assert captured.out == ""
