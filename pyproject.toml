@@ -3,18 +3,57 @@ requires = ["setuptools >= 67.0.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name =  "minimal-python-template"
+name =  "conda-env-converter"
 version = "0.0.1"
-description = ""
-# TODO (usr) uncomment the following and add authors
-# authors = [
-#     {name = "YOURNAME", email = "YOUREMAIL@gmail.com"},
-# ]
+description = "Convert a Conda environment.yml into an equivalent `conda create` command."
+authors = [
+    {name = "Rachael Esler", email = "rachael.esler@gmail.com"},
+]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    # TODO (usr) add your project dependencies here
+    "pyyaml",
 ]
 
 [project.scripts]
-minimal_python_template = "minimal_python_template.__main__:main"
+conda_env_converter = "conda_env_converter.__main__:main"
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+  "D",      # pydocstyle
+  "E",      # pycodestyle errors
+  "W",      # pycodestyle warnings
+  "F",      # Pyflakes
+  "I",      # isort
+  "B",      # flake8-bugbear
+  "ARG",    # flake8-unused-arguments
+  "SIM",    # flake8-simplify
+  "BLE",    # flake8-blind-except
+  "FBT",    # flake8-boolean-trap
+  "A",      # flake8-builtins
+  "C4",     # flake8-comprehensions
+  "ICN",    # flake8-import-conventions
+  "T20",    # flake8-print
+  "Q",      # flake8-quotes
+  "RSE",    # flake8-raise
+  "RET",    # flake8-return
+  "SIM",    # flake8-simplify
+  "PTH",    # flake8-use-pathlib
+  "N",      # pep8-naming
+  "PL",     # Pylint
+  "RUF"     # Ruff-specific rules
+]
+ignore = [
+  "PTH123", # Okay to use open() over Path.open()
+  "T201",   # Okay to have `print` commands
+  # The following rules are ignored due to conflicts with other rules
+  "D203",
+  "D213"
+]
+
+[tool.pyright]
+include = ["src"]
+pythonVersion = "3.12"
