@@ -68,7 +68,7 @@ jobs:
           sed -i 's/^__version__ = .*/__version__ = "${{ steps.calculate_tag.outputs.VERSION }}"/' src/conda_env_converter/__init__.py
           git add src/conda_env_converter/__init__.py
           # Only commit if there are changes
-          git diff --staged --quiet || git commit -m "Update version to ${{ steps.calculate_tag.outputs.VERSION }}"
+          git diff --staged --quiet || git commit -m "Automatically update version to ${{ steps.calculate_tag.outputs.VERSION }}"
           git push origin HEAD:main
 
       - name: Create new release (creates tag)
