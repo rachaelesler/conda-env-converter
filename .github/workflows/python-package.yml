@@ -28,12 +28,20 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install ruff build
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with ruff
+        pip install ruff build pytest pytest-cov pyyaml
+
+    - uses: astral-sh/ruff-action@v3
+      with:
+        version: ">=0.15.1"
+        args: "--version"
+    - run: ruff check --fix
+    - run: ruff format --check --diff
+
+
+    - name: Python unit tests
       run: |
-        ruff format
-        ruff check
+        pytest --cov=src --cov-report=term-missing
+
     - name: Package Python code
       run: |
         python -m build
