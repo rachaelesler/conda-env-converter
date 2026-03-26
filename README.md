@@ -7,8 +7,6 @@ A very, _very_ basic CLI and Python package for converting a Conda
 
 ### Installation
 
-This package is not on PyPi (yet)!
-
 Install the latest version with:
 
 ```bash
