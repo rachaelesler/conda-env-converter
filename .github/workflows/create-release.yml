@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  update-version:
+  create-new-release:
     runs-on: ubuntu-latest
 
     steps:
