@@ -140,8 +140,7 @@ def build_conda_create_command(
 
 def main() -> None:
     """Create CLI for this tool."""
-    description = "Convert a Conda environment.yml into an equivalent "
-    "`conda create` command."
+    description = "Build a `conda create` command from a Conda environment file."
     epilog = """
 examples:
   %(prog)s environment.yml
