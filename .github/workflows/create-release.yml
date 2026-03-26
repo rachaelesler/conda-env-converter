@@ -66,7 +66,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "${{ steps.calculate_tag.outputs.VERSION }}" > VERSION
-          git add VERSION
+          git add -f VERSION
           # Only commit if there are changes
           git diff --staged --quiet || git commit -m "Update VERSION to ${{ steps.calculate_tag.outputs.VERSION }}"
           git push origin HEAD:main

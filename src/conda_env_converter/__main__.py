@@ -7,6 +7,8 @@ from pathlib import Path
 
 import yaml
 
+from conda_env_converter.version import get_tool_version
+
 
 class NotAnEnvironmentFileError(Exception):
     """Raised when a file provided is not a Conda environment.yml file."""
@@ -143,9 +145,9 @@ def main() -> None:
     description = "Build a `conda create` command from a Conda environment file."
     epilog = """
 examples:
-  %(prog)s environment.yml
-  %(prog)s environment.yml --name myenv
-  %(prog)s environment.yml --no-default-packages
+  %(prog)s --file environment.yml
+  %(prog)s --file environment.yml --name myenv
+  %(prog)s -f environment.yml --no-default-packages
         """
     parser = argparse.ArgumentParser(
         description=description,
@@ -153,9 +155,14 @@ examples:
         epilog=epilog,
     )
     parser.add_argument(
-        "file",
+        "--file",
+        "-f",
         type=Path,
         help="Path to the environment.yml file.",
+        required="--version" not in sys.argv,
+    )
+    parser.add_argument(
+        "--version", help="Print version and exit.", action="store_true", default=False
     )
     parser.add_argument(
         "--name",
@@ -178,6 +185,10 @@ examples:
     )
 
     args = parser.parse_args()
+
+    if args.version:
+        print(get_tool_version())
+        return
 
     if not args.file.exists():
         raise FileNotFoundError(f"File not found: {args.file}")
