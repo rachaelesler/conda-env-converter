@@ -3,10 +3,36 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.12
-  - pyyaml
-  - ruff
   - ca-certificates
   - openssl
   - pyright
+  - python[version='>=3.12']
+  - pyyaml
+  - ruff
+  - pre-commit
+  - libgcc-ng
+  - wheel
+  - pip
+  - _openmp_mutex
+  - setuptools
+  - libstdcxx
+  - liblzma
+  - icu
+  - libgcc
+  - ld_impl_linux-64
+  - libexpat
+  - libsqlite
+  - tzdata
+  - libuuid
+  - ncurses
+  - libxcrypt
+  - readline
+  - libzlib
+  - libffi
+  - zstd
+  - packaging
+  - bzip2
+  - libgomp
+  - tk
+  - libnsl
 prefix: /home/resler/miniforge3/envs/conda-env-converter
